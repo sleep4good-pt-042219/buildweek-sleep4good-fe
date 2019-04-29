@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// will need to import components and set up Routes
+
+// import HotelList from './components/HotelList/HotelList';
+import Login from './components/Login/Login';
+import PrivateRoute from './components/PrivateRoute';
+
+
+class App extends React.Component() {
+  render() {
+    return (
+     <Router> 
+        <div className="App">
+        {/* <Route exact path="/" component={Home}/> */}
+        <Route exact path="/login" component={Login} />
+        {/* <PrivateRoute exact path="/hotels" component={HotelList} /> */}
+      </div>
+     </Router>
+    );
+  }
 }
 
 export default App;

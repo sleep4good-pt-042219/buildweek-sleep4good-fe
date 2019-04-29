@@ -1,0 +1,65 @@
+import React from 'react';
+import Loader from 'react-loader-spinner';
+import {connect} from 'react-redux';
+import {login} from '../../actions';
+
+import {
+    Button,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    FormText
+} from 'reactstrap';
+
+class Login extends React.Component {
+    state = {
+        credentials: {
+            username: '',
+            password: ''
+        }
+    }
+    handleChange = e => {
+        this.setState({
+            credentials: {
+                ...this.state.credentials,
+                [e.target.name]: e.target.value
+            }
+        });
+    };
+
+    login = e => {
+        e.preventDefault();
+        this
+            .props
+            .login(this.state.credentials)
+            // update route
+            // .then(() => this.props.history.push('/hotels'))
+    };
+
+    render() {
+        return (
+            <div className="login-form">
+                <form onSubmit={this.login}>
+                    <label htmlFor="username">Account</label>
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Username..."
+                        value={this.state.credentials.username}
+                        onChange={this.handleChange}/>
+                    <label htmlFor="password">Password</label>
+                    <input type="text" name="password" placeholder="Password..." onChange={this.handleChange} value={this.state.credentials.password} /> {this.props.error && <p>{this.props.error}</p>}
+
+                    <button>{this.props.loggingIn
+                            ? (<Loader type="ThreeDots" color="#1f2a38" height="12" width="26"/>)
+                            : ('Login')}</button>
+                </form>
+            </div>
+        )
+    };
+};
+
+const mapStateToProps = ({error, loggingIn}) => ({error, loggingIn})
+
+export default connect(mapStateToProps, {login})(Login);
