@@ -45,7 +45,6 @@ class Authenticate extends React.Component {
         )
     }
 }
-
 const MapStateToProps = ({
     usersReducer: state,
     token,
