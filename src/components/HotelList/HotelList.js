@@ -8,11 +8,11 @@ import {getData} from '../actions';
 class HotelList extends React.Component {
     state = {}
 
-    // componentDidMount() {
-    //     this
-    //         .props
-    //         .getData();
-    // }
+    componentDidMount() {
+        this
+            .props
+            .getData();
+    }
 
     render() {
         if (this.props.fetchingHotels) 

@@ -21,7 +21,7 @@ const initialState = {
     }
 };
 
-const usersReducer = (state = initialState, action) => {
+export const usersReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_START:
             return {
@@ -66,4 +66,9 @@ const usersReducer = (state = initialState, action) => {
     }
 };
 
-export default usersReducer;
+export const postsReducer = (state = initialState, action) => {
+    switch (action.type) {
+        default:
+            return state
+    }
+};

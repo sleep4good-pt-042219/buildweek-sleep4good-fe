@@ -1,25 +1,24 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 
 // will need to import components and set up Routes
 
 // import HotelList from './components/HotelList/HotelList';
-import Login from './components/Login/Login';
-import PrivateRoute from './components/PrivateRoute';
+import Login from "./components/Login/Login";
+import Home from "./components/Home/Home";
 
-
-class App extends React.Component() {
+class App extends React.Component {
   render() {
     return (
-     <Router> 
+      <Router>
         <div className="App">
-        {/* <Route exact path="/" component={Home}/> */}
-        <Route exact path="/login" component={Login} />
-        {/* <PrivateRoute exact path="/hotels" component={HotelList} /> */}
-      </div>
-     </Router>
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/login" component={Login} />
+          <Home />
+        </div>
+      </Router>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
