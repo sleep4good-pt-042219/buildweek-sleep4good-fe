@@ -3,16 +3,16 @@ import { withRouter } from './node_modules/react-router-dom';
 import { connect } from './node_modules/react-redux';
 import Loader from './node_modules/react-loader-spinner';
 
-import {getData} from '../actions';
+import {getData} from '../../actions';
 
 class HotelList extends React.Component {
     state = {}
 
-    componentDidMount() {
-        this
-            .props
-            .getData();
-    }
+    // componentDidMount() {
+    //     this
+    //         .props
+    //         .getData();
+    // }
 
     render() {
         if (this.props.fetchingHotels) 
