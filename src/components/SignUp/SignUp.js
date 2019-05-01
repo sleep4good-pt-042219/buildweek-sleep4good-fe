@@ -1,12 +1,9 @@
 import React from 'react';
-import Loader from 'react-loader-spinner';
 import {connect} from 'react-redux';
-import {login} from '../../actions';
+import Login from '../Login/Login';
 import {Route, Link} from 'react-router-dom';
-
-import history from '../../helpers/history';
-
-import Home from '../Home/Home';
+import Loader from 'react-loader-spinner';
+import {signUp} from '../../actions/index';
 
 import {
     Button,
@@ -17,37 +14,41 @@ import {
     FormText
 } from 'reactstrap';
 
-class Login extends React.Component {
+class SignUp extends React.Component {
     state = {
         credentials: {
             username: '',
             password: ''
-        },
-        isLoggedIn: false
+        }
     }
+
     handleChange = e => {
         this.setState({
-            credentials: {
-                ...this.state.credentials,
+            user: {
+                ...this.state.user,
                 [e.target.name]: e.target.value
             }
-        });
-    };
+        })
+    }
 
-    handleSubmit = e => {
-        e.preventDefault();
+    toggleIsSigningUp = () => {
+        this.setState({
+            signingUp: !this.state.signingUp
+        })
+    }
+
+    handleSignUp = () => {
         this
             .props
-            .login(this.state.credentials)
-            // update route
-            .then(() => this.props.history.push('/'));
-    };
+            .signUp(this.state.credentials)
+    }
 
     render() {
         return (
-            <div className="login-form">
-                <Form onSubmit={e => this.handleSubmit(this.state.credentials)}>
-                    <Label htmlFor="username">Account</Label>
+            <div className='signup-form'>
+            <h1>Sign Up</h1>
+                <Form onSubmit={e => this.handleSignUp(this.state.credentials)}>
+                    <Label htmlFor="username">Sign Up</Label>
                     <Input
                         type="text"
                         name="username"
@@ -60,19 +61,17 @@ class Login extends React.Component {
                         name="password"
                         placeholder="Password..."
                         onChange={this.handleChange}
-                        value={this.state.credentials.password}/> {this.props.error && <p>{this.props.error}</p>}
+                        value={this.state.credentials.password}/>
 
-                    <Button>{this.props.loggingIn
+                    <Button>{this.props.signingUp
                             ? (<Loader type="ThreeDots" color="#1f2a38" height="12" width="26"/>)
-                            : ('Login')}</Button>
+                            : ('Sign Up')}</Button>
                 </Form>
-                <p>Don't have an account? <Link to='/login'>Sign Up!</Link></p>
-
             </div>
         )
-    };
-};
+    }
+}
 
-const mapStateToProps = ({loggingIn}) => ({loggingIn});
+const mapStateToProps = ({signingUp}) => ({signingUp});
 
-export default connect(mapStateToProps, {login})(Login);
+export default connect(mapStateToProps, {signUp})(SignUp);
