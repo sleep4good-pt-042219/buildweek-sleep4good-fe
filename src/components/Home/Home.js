@@ -1,36 +1,34 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 import Loader from 'react-loader-spinner';
-import {   Collapse,
+import {
+    Collapse,
     Navbar,
     NavbarToggler,
     NavbarBrand,
     Nav,
     NavItem,
     NavLink
-    } from 'reactstrap';
+} from 'reactstrap';
 import {getData} from '../../actions';
 
 class Home extends React.Component {
 
-    state = {
-        hotels: []
-    }
+    // state = {     hotels: [] }
 
     componentDidMount() {
-        this
-            .props
-            .getData();
-            this.setState({ hotels: this.props.hotels })
+        this.props.getData();
+        // this.setState({ hotels: this.props.hotels })
     }
 
     render() {
+        console.log(this.props);
         if (this.props.fetchingHotels) 
             return <Loader type="Puff" color="#59dab8" height="100" width="100"/>;
         return (
             <div className="hotels">
-            <Navbar color="light" light expand="md">
+                {/* <Navbar color="light" light expand="md">
           <NavbarBrand href="/">Sleep4Good</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -43,23 +41,14 @@ class Home extends React.Component {
               </NavItem>
             </Nav>
           </Collapse>
-        </Navbar>
+        </Navbar> */}
                 <h2>Hotels</h2>
-
-                {this
-                    .state
-                    .hotels
-                    .map(hotel => (
-                        <div className="hotel-card">
-                            <h4>{hotel.hotel_name}</h4>
-                        </div>
-
-                    ))}
+                    {this.props.hotels.map((hotel, index) => { return <div id={hotel.id} hotel={hotel} key={index}> <button onclick={hotel.hotel_id}>{hotel.hotel_name}{hotel.hotel_id}</button> </div>})}
             </div>
         );
     }
 }
 
-const mapStateToProps = ({hotels, fetchingHotels}) => ({hotels, fetchingHotels});
+const mapStateToProps = ({usersReducer: state}) => {return {hotels: state.hotels, fetchingHotels: state.fetchingHotels }};
 
 export default withRouter(connect(mapStateToProps, {getData})(Home));

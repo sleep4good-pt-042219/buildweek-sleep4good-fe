@@ -4,7 +4,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import {logger} from './logger';
 import {postsReducer, usersReducer} from './reducers'
 

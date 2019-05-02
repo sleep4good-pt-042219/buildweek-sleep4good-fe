@@ -7,30 +7,29 @@ import DatePicker from '../DatePicker/datePicker';
 
 
 class Booking extends React.Component{
-    state = {
-        credentials:{
-            username:'',
-            password:''
-        },
-        hotels:[],
-        isLoggedIn:true
-    }
+    //state = {
+        //credentials:{
+           // username:'',
+            //password:''
+        //},
+        //hotels:[],
+        //isLoggedIn:true
+    //}
    
 
     componentDidMount() {
-        this
-            .props
-            .getData();
-            //this.setState({ hotels: this.props.hotels.data})
+        this.props.getData();
     }
+
     render(){
+        console.log(this.props);
         if(this.props.fetchingHotels)
             return <div>Fetching</div>;
         return(
             <div className="hotels">
                 
                 <h2>Hotels</h2>
-                <div>{this.state.hotels.map(hotel=><p>{hotel.hotel_name}</p>)}</div>
+            {this.props.hotels.map((hotel,index)=>{return <div id={hotel.id}hotel={hotel}key={index}><p>{hotel.hotel_name}</p></div>})}
             
             <form>
                 <DatePicker/>
@@ -42,6 +41,6 @@ class Booking extends React.Component{
     }
 };
 
-const mapStateToProps = ({hotels, fetchingHotels}) => ({hotels, fetchingHotels});
+const mapStateToProps = ({usersReducer: state}) => {return {hotels: state.hotels, fetchingHotels: state.fetchingHotels }};
 
 export default withRouter(connect(mapStateToProps, {getData})(Booking));
