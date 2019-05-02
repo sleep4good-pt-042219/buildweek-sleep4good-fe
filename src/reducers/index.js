@@ -96,3 +96,9 @@ export const postsReducer = (state = initialState, action) => {
             return state
     }
 };
+export const hotelSelector = (state=initialState,action)=>{
+    switch(action.type){
+        default:
+            return state
+    }
+}

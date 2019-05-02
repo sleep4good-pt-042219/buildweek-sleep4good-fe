@@ -43,7 +43,9 @@ class Home extends React.Component {
           </Collapse>
         </Navbar> */}
                 <h2>Hotels</h2>
-                    {this.props.hotels.map((hotel, index) => { return <div id={hotel.id} hotel={hotel} key={index}> <button onclick={hotel.hotel_id}>{hotel.hotel_name}{hotel.hotel_id}</button> </div>})}
+                    {this.props.hotels.map((hotel, index) => { return <div id={hotel.id} hotel={hotel} key={index}> 
+                        <NavLink to="/:id/locations">{hotel.id}{hotel.hotel_name}</NavLink> 
+                    </div>})}
             </div>
         );
     }

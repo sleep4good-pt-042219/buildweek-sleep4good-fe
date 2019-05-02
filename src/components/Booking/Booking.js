@@ -1,46 +1,43 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import Loader from 'react-loader-spinner';
+import {
+    Collapse,
+    Navbar,
+    NavbarToggler,
+    NavbarBrand,
+    Nav,
+    NavItem,
+    NavLink
+} from 'reactstrap';
+import {hotelLocations} from '../../actions';
 
-import {getData} from '../../actions/index.js';
-import DatePicker from '../DatePicker/datePicker';
+class Booking extends React.Component {
 
-
-class Booking extends React.Component{
-    //state = {
-        //credentials:{
-           // username:'',
-            //password:''
-        //},
-        //hotels:[],
-        //isLoggedIn:true
-    //}
-   
+    // state = {     hotels: [] }
 
     componentDidMount() {
-        this.props.getData();
+        this.props.hotelLocations();
+        // this.setState({ hotels: this.props.hotels })
     }
 
-    render(){
+    render() {
         console.log(this.props);
-        if(this.props.fetchingHotels)
-            return <div>Fetching</div>;
-        return(
+        if (this.props.fetchingHotels) 
+            return <Loader type="Puff" color="#59dab8" height="100" width="100"/>;
+        return (
             <div className="hotels">
-                
+               
                 <h2>Hotels</h2>
-            {this.props.hotels.map((hotel,index)=>{return <div id={hotel.id}hotel={hotel}key={index}><p>{hotel.hotel_name}</p></div>})}
-            
-            <form>
-                <DatePicker/>
-                <button>Confirm</button>
-                <button>Reset</button>
-            </form>
+                    {this.props.hotels.map((hotel, index) => { return <div id={hotel.id} hotel={hotel} key={index}> 
+                        <NavLink to="/:id/locations">{hotel.id}{hotel.hotel_name}</NavLink> 
+                    </div>})}
             </div>
-        )
+        );
     }
-};
+}
 
 const mapStateToProps = ({usersReducer: state}) => {return {hotels: state.hotels, fetchingHotels: state.fetchingHotels }};
 
-export default withRouter(connect(mapStateToProps, {getData})(Booking));
+export default withRouter(connect(mapStateToProps, {hotelLocations})(Booking));

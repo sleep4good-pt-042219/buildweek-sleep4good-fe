@@ -74,3 +74,24 @@ export const getData = () => dispatch => {
             }
         });
 };
+
+export const hotelLocations=()=>dispatch=>{
+    dispatch({type:FETCH_DATA_START})
+    axios.get(`https://sleep4good.herokuapp.com/api/hotels`,{
+        headers: {
+            Authorization: localStorage.getItem('token')
+        }
+    })
+    .then(res => {
+        console.log(res);
+        dispatch({type: FETCH_DATA_SUCCESS, payload: res.data })
+    })
+    .catch(err => {
+        console.log(err);
+        if (err.response.status === 403) {
+            dispatch({type: USER_UNAUTHORIZED, payload: err.response})
+        } else {
+            dispatch({type: FETCH_DATA_FAILURE, payload: err.response})
+        }
+    });
+};

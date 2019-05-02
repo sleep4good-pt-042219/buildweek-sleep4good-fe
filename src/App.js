@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import Home from './components/Home/Home';
+import Booking from './components/Booking/Booking';
 
 class App extends React.Component {
 
@@ -72,7 +73,7 @@ class App extends React.Component {
                 <Route exact path="/" component={Home}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/signup" component={SignUp}/>
-                
+                <Route path="/booking" component = {Booking}/>
             </div>
         );
     }
