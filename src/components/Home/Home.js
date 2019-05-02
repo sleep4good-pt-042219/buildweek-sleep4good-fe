@@ -18,18 +18,16 @@ class Home extends React.Component {
         hotels: []
     }
 
-    // componentDidMount() {
-    //     this
-    //         .props
-    //         .getData();
-    //         this.setState({ hotels: this.props.hotels})
-
-    // }
+    componentDidMount() {
+        this
+            .props
+            .getData();
+            this.setState({ hotels: this.props.hotels })
+    }
 
     render() {
         if (this.props.fetchingHotels) 
             return <Loader type="Puff" color="#59dab8" height="100" width="100"/>;
-            console.log('hellooooo');
         return (
             <div className="hotels">
             <Navbar color="light" light expand="md">
@@ -48,16 +46,15 @@ class Home extends React.Component {
         </Navbar>
                 <h2>Hotels</h2>
 
-                {/* {this
-                    .props
+                {this
+                    .state
                     .hotels
                     .map(hotel => (
                         <div className="hotel-card">
-                            <h4>{hotel.name}</h4>
-                            <p>{hotel.email}</p>
+                            <h4>{hotel.hotel_name}</h4>
                         </div>
 
-                    ))} */}
+                    ))}
             </div>
         );
     }

@@ -36,6 +36,7 @@ class Login extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault();
+        console.log(this.state.credentials);
         this
             .props
             .login(this.state.credentials)
@@ -46,7 +47,7 @@ class Login extends React.Component {
     render() {
         return (
             <div className="login-form">
-                <Form onSubmit={e => this.handleSubmit(this.state.credentials)}>
+                <Form onSubmit={this.handleSubmit}>
                     <Label htmlFor="username">Account</Label>
                     <Input
                         type="text"
@@ -60,9 +61,9 @@ class Login extends React.Component {
                         name="password"
                         placeholder="Password..."
                         onChange={this.handleChange}
-                        value={this.state.credentials.password}/> {this.props.error && <p>{this.props.error}</p>}
+                        value={this.state.credentials.password}/>
 
-                    <Button>{this.props.loggingIn
+                    <Button type='submit'>{this.props.loggingIn
                             ? (<Loader type="ThreeDots" color="#1f2a38" height="12" width="26"/>)
                             : ('Login')}</Button>
                 </Form>
