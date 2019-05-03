@@ -77,7 +77,7 @@ export const getData = () => dispatch => {
 
 export const hotelLocations=()=>dispatch=>{
     dispatch({type:FETCH_DATA_START})
-    axios.get(`https://sleep4good.herokuapp.com/api/hotels`,{
+    axios.get(`https://sleep4good.herokuapp.com/api/hotels/:id/locations`,{
         headers: {
             Authorization: localStorage.getItem('token')
         }

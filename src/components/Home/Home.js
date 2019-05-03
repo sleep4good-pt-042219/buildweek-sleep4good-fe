@@ -44,13 +44,16 @@ class Home extends React.Component {
         </Navbar> */}
                 <h2>Hotels</h2>
                     {this.props.hotels.map((hotel, index) => { return <div id={hotel.id} hotel={hotel} key={index}> 
-                        <NavLink to="/:id/locations">{hotel.id}{hotel.hotel_name}</NavLink> 
+                        <button onClick ='clickHandle'>{hotel.id}+{hotel.hotel_name}</button> 
                     </div>})}
             </div>
         );
     }
 }
+ function clickHandle(hotel,id){
+  
 
+}
 const mapStateToProps = ({usersReducer: state}) => {return {hotels: state.hotels, fetchingHotels: state.fetchingHotels }};
 
 export default withRouter(connect(mapStateToProps, {getData})(Home));
