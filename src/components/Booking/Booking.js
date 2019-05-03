@@ -18,6 +18,7 @@ class Booking extends React.Component {
     // state = {     hotels: [] }
 
     componentDidMount() {
+        console.log('anything')
         this.props.hotelLocations();
         // this.setState({ hotels: this.props.hotels })
     }
@@ -30,14 +31,14 @@ class Booking extends React.Component {
             <div className="hotels">
                
                 <h2>Hotels</h2>
-                    {this.props.hotels.map((hotel, index) => { return <div id={hotel.id} hotel={hotel} key={index}> 
-                        <NavLink>{hotel.id}</NavLink> 
+                    {this.props.locations.map((location, index) => { return <div id={location.id}  key={index}> 
+                        <NavLink></NavLink> 
                     </div>})}
             </div>
         );
     }
 }
 
-const mapStateToProps = ({usersReducer: state}) => {return {hotels: state.hotels, fetchingHotels: state.fetchingHotels }};
+const mapStateToProps = ({hotelReducer: state}) => ({locations: state.locations, fetchingHotels: state.fetchingHotels});
 
 export default withRouter(connect(mapStateToProps, {hotelLocations})(Booking));

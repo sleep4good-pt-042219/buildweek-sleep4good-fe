@@ -8,11 +8,15 @@ import {
     LOGIN_FAILURE,
     SIGNUP_USER_START,
     SIGNUP_USER_SUCCESS,
-    SIGNUP_USER_FAILURE
+    SIGNUP_USER_FAILURE,
+    FETCH_LOC_FAILURE,
+    FETCH_LOC_START,
+    FETCH_LOC_SUCCESS
 } from '../actions';
 
 const initialState = {
     hotels: [],
+    locations:[],
     users: [],
     loggingIn: false,
     isLoggedIn: false,
@@ -96,9 +100,26 @@ export const postsReducer = (state = initialState, action) => {
             return state
     }
 };
-export const hotelSelector = (state=initialState,action)=>{
+export const hotelReducer = (state=initialState,action)=>{
     switch(action.type){
-        default:
-            return state
+        case FETCH_LOC_START:
+            return {
+                ...state,
+                fetchingHotels: true
+            };
+        case FETCH_LOC_SUCCESS:
+            return {
+                ...state,
+                error: '',
+                errorStatusCode: null,
+                fetchingHotels:false,
+                locations: action.payload
+            };
+            case FETCH_LOC_FAILURE:
+            return {
+                ...state,
+                fetchingHotels: false
+            };
+            default : return state
     }
-}
+};

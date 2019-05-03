@@ -9,6 +9,7 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 
+
 export const login = creds => dispatch => {
     console.log(creds);
     dispatch({type: LOGIN_START});
@@ -75,23 +76,26 @@ export const getData = () => dispatch => {
         });
 };
 
+
+export const FETCH_LOC_FAILURE='FETCH_LOC_FAILURE';
+export const FETCH_LOC_SUCCESS='FETCH_LOC_SUCCESS';
+export const FETCH_LOC_START='FETCH_LOC_START';
+
+
 export const hotelLocations=()=>dispatch=>{
-    dispatch({type:FETCH_DATA_START})
-    axios.get(`https://sleep4good.herokuapp.com/api/hotels/:id/locations`,{
+    dispatch({type:FETCH_LOC_START})
+    axios.get(`https://sleep4good.herokuapp.com/api/hotels/locations`,{
         headers: {
             Authorization: localStorage.getItem('token')
         }
     })
     .then(res => {
         console.log(res);
-        dispatch({type: FETCH_DATA_SUCCESS, payload: res.data })
+        dispatch({type: FETCH_LOC_SUCCESS, payload: res.data })
     })
     .catch(err => {
-        console.log(err);
-        if (err.response.status === 403) {
-            dispatch({type: USER_UNAUTHORIZED, payload: err.response})
-        } else {
-            dispatch({type: FETCH_DATA_FAILURE, payload: err.response})
-        }
+        
+            dispatch({type: FETCH_LOC_FAILURE, payload: err.response})
+        
     });
 };

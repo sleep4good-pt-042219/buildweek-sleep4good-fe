@@ -11,6 +11,7 @@ import {
     NavItem,
     NavLink
 } from 'reactstrap';
+import {Route, Link, Redirect} from 'react-router-dom';
 import {getData} from '../../actions';
 
 class Home extends React.Component {
@@ -44,7 +45,8 @@ class Home extends React.Component {
         </Navbar> */}
                 <h2>Hotels</h2>
                     {this.props.hotels.map((hotel, index) => { return <div id={hotel.id} hotel={hotel} key={index}> 
-                        <button onClick ='clickHandle'>{hotel.id}+{hotel.hotel_name}</button> 
+                    <Link to='/booking'>{hotel.id}+{hotel.hotel_name}</Link>
+                       
                     </div>})}
             </div>
         );
