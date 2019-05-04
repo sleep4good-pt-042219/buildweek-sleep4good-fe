@@ -8,7 +8,6 @@ export const LOGOUT_START = 'LOGOUT_START';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
-
 export const login = creds => dispatch => {
     console.log(creds);
     dispatch({type: LOGIN_START});
@@ -17,35 +16,82 @@ export const login = creds => dispatch => {
         .then(res => {
             console.log(res.data);
             localStorage.setItem('token', res.data.token);
-            localStorage.setItem('username', creds.username);
+            localStorage.setItem('username', res.data.username);
             localStorage.setItem('isLoggedIn', true)
-            // window.location.reload();
             dispatch({type: LOGIN_SUCCESS, payload: res.data})
         })
-        .catch(err => dispatch({ type: LOGIN_FAILURE, payload: err })
-        );
+        .catch(err => dispatch({type: LOGIN_FAILURE, payload: err}));
 };
 
 export const logout = () => dispatch => {
-dispatch({ type: LOGOUT_START })
-    axios.get('https://sleep4good.herokuapp.com/api/users')
-    .then(res => {
-        localStorage.removeItem('isLoggedIn')
-        window.location.reload();
-        dispatch({ type: LOGOUT_SUCCESS, payload: res.data })
-    })
-    .catch(err => dispatch({ type: LOGOUT_FAILURE, payload: err }))
+    dispatch({type: LOGOUT_START})
+    axios
+        .get('https://sleep4good.herokuapp.com/api/users')
+        .then(res => {
+            localStorage.removeItem('isLoggedIn')
+            dispatch({type: LOGOUT_SUCCESS, payload: res.data})
+        })
+        .catch(err => dispatch({type: LOGOUT_FAILURE, payload: err}))
 }
 
-export const SIGNUP_USER_START = 'SIGNUP_USER_START';
-export const SIGNUP_USER_SUCCESS = 'SIGNUP_USER_SUCCESS';
-export const SIGNUP_USER_FAILURE = 'SIGNUP_USER_FAILURE';
+export const LOGIN_STATUS_CHECKING = 'LOGIN_STATUS_CHECKING';
+export const LOGIN_STATUS_SUCCESS = 'LOGIN_STATUS_SUCCESS';
+export const LOGIN_STATUS_FAILURE = 'LOGIN_STATUS_FAILURE';
 
-export const signUp = creds => dispatch => {
-    dispatch({ type: SIGNUP_USER_START })
-    axios.post('https://sleep4good.herokuapp.com/auth/partner/register', creds)
-    .then(res => dispatch({ type: SIGNUP_USER_SUCCESS, payload: res.data }))
-    .catch(err => dispatch({ type: SIGNUP_USER_FAILURE, payload: err }))
+export const loginStatus = (username, token, history) => {
+    return dispatch => {
+        dispatch({type: LOGIN_STATUS_CHECKING})
+        const user = {
+            username: username,
+            token: token
+        }
+        if (user && token) {
+            console.log(token);
+            dispatch({type: LOGIN_STATUS_SUCCESS, payload: user})
+            // history.push('/')
+        } else {
+            dispatch({type: LOGIN_STATUS_FAILURE, payload: {}});
+            history.push('/login');
+        }
+    }
+}
+
+export const SIGNUP_PARTNER_START = 'SIGNUP_PARTNER_START';
+export const SIGNUP_PARTNER_SUCCESS = 'SIGNUP_PARTNER_SUCCESS';
+export const SIGNUP_PARTNER_FAILURE = 'SIGNUP_PARTNER_FAILURE';
+
+export const signUpPartner = (creds, history) => dispatch => {
+    dispatch({type: SIGNUP_PARTNER_START})
+    axios
+        .post('https://sleep4good.herokuapp.com/auth/partner/register', creds)
+        .then(res => {
+            console.log(res.status);
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('username', creds.username);
+            localStorage.setItem('isLoggedIn', true);
+            dispatch({type: SIGNUP_PARTNER_SUCCESS, payload: res.data});
+            // history.push('/login');
+        })
+        .catch(err => dispatch({type: SIGNUP_PARTNER_FAILURE, payload: err}))
+};
+
+export const SIGNUP_PATRON_START = 'SIGNUP_PATRON_START';
+export const SIGNUP_PATRON_SUCCESS = 'SIGNUP_PATRON_SUCCESS';
+export const SIGNUP_PATRON_FAILURE = 'SIGNUP_PATRON_FAILURE';
+
+export const signUpPatron = (creds, history) => dispatch => {
+    dispatch({type: SIGNUP_PATRON_START})
+    axios
+        .post('https://sleep4good.herokuapp.com/auth/patron/register', creds)
+        .then(res => {
+            console.log(res.status);
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('username', creds.username);
+            localStorage.setItem('isLoggedIn', true);
+            dispatch({type: SIGNUP_PATRON_SUCCESS, payload: res.data});
+            // history.push('/');
+        })
+        .catch(err => dispatch({type: SIGNUP_PATRON_FAILURE, payload: err}))
 };
 
 export const FETCH_DATA_START = 'FETCH_DATA_START';
@@ -63,7 +109,7 @@ export const getData = () => dispatch => {
     })
         .then(res => {
             console.log(res);
-            dispatch({type: FETCH_DATA_SUCCESS, payload: res.data })
+            dispatch({type: FETCH_DATA_SUCCESS, payload: res.data})
         })
         .catch(err => {
             console.log(err);

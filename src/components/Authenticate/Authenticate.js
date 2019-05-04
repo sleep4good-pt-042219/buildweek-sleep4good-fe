@@ -1,69 +1,62 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {Route, withRouter, Redirect} from 'react-router-dom';
-
-import Login from '../Login/Login';
+import { connect } from 'react-redux';
+import { Route ,withRouter } from 'react-router-dom';
+import { Container } from 'reactstrap';
+import { loginStatus } from '../../actions/index';
+import Login from './Login';
+import SignUp from '../SignUp/SignUp';
+// import Header from './../parts/Header';
 import App from '../../App';
-
-import axios from 'axios';
 
 class Authenticate extends React.Component {
 
-    logOutUser = () => {
-        localStorage.setItem('token', '');
-        localStorage.setItem('username', '');
-        this.setState({
-            user: {
-                username: '',
-                token: ''
-            },
-            isLoggedIn: false
-        })
-        this
-            .props
-            .history
-            .push('/')
-    }
+componentDidMount() {
+    const username = localStorage.getItem('username')
+    const token = localStorage.getItem('token');
+    this.props.loginStatus(username, token, this.props.history)
+  }
+  
 
-    render() {
+  render() {
+      return(
+          <div>
+              {/* <Header {...this.props} {...this.state} /> */}
 
-        const {
-            token,
-            errorStatusCode,
-            ...rest
-        } = this.props;
-
-        return (
-            <div>
-                <Route
-                    {...rest}
-                    render={props => this.props.isLoggedIn === true
-                    ? (<App {...props} logOutUser={this.logOutUser}/>)
-                    : (<Login {...props}/>)}/>
-            </div>
-        )
-    }
+              <Container>
+                  {this.props.isLoggedIn === true ?
+                      <div>
+                          <Route exact path="/" render={props =>
+                              <App {...props} 
+                              // isLoggedIn={this.state.isLoggedIn}
+                              
+                              />
+                          }/>
+                      </div>
+                      :
+                      <div>
+                        <Route exact path="/login" render={props => 
+                            <Login {...this.state} {...props} />
+                        }/>
+                        <Route exact path='/signup' render={props => <SignUp {...this.state} {...props}/>}/>
+                      </div>
+                  }
+              </Container>
+          </div>
+      )
+  }
 }
 
-const MapStateToProps = ({
-    usersReducer: state,
-    token,
-    errorStatusCode,
-    isLoggedIn,
-    loggingIn,
-    loginError
-}) => {
-    console.log(state)
-    return {
-        user: {
-            username: state.username.name,
-            token: state.username.token
-        },
-        token,
-        errorStatusCode,
-        isLoggedIn,
-        loggingIn,
-        loginError
-    }
+
+const MapStateToProps = ({ usersReducer: state }) => {
+console.log(state)
+  return {
+      user: {
+        username: state.username,
+        token: state.token
+      },
+      isLoggedIn: state.isLoggedIn,
+      loggingIn: state.loggingIn,
+      error: state.error,
+  }
 }
-export default withRouter(connect(MapStateToProps, {})(Authenticate));
+export default withRouter(connect(MapStateToProps, { loginStatus })(Authenticate));
