@@ -4,48 +4,104 @@ import {
     LOGIN_SUCCESS,
     FETCH_DATA_START,
     FETCH_DATA_SUCCESS,
-    FETCH_DATA_FAILURE,
     LOGIN_FAILURE,
-    SIGNUP_USER_START,
-    SIGNUP_USER_SUCCESS,
-    SIGNUP_USER_FAILURE
+    SIGNUP_PARTNER_START,
+    SIGNUP_PARTNER_SUCCESS,
+    SIGNUP_PARTNER_FAILURE,
+    SIGNUP_PATRON_START,
+    SIGNUP_PATRON_SUCCESS,
+    SIGNUP_PATRON_FAILURE,
+    LOGIN_STATUS_CHECKING,
+    LOGIN_STATUS_SUCCESS,
+    LOGIN_STATUS_FAILURE
 } from '../actions';
 
 const initialState = {
     hotels: [],
-    users: [],
+    partners: [],
+    patrons: [],
     loggingIn: false,
     isLoggedIn: false,
     signingUp: false,
     error: '',
     errorStatusCode: null,
     fetchingHotels: false,
-    username: {
-        name: null,
+    user: {
+        username: null,
         token: null
     }
 };
 
 export const usersReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SIGNUP_USER_START:
-        return {
-            ...state,
-            signingUp: true
-        }
-        case SIGNUP_USER_SUCCESS:
-        return {
-            ...state,
-            signingUp: false,
-            users: action.payload
-            
-        }
-        case SIGNUP_USER_FAILURE: 
-        return {
-            ...state,
-            signingUp: false,
-            error: action.payload
-        }
+        case LOGIN_STATUS_CHECKING:
+            return {
+                ...state,
+                loggingIn: true,
+                user: {
+                    username: '',
+                    token: ''
+                },
+                isLoggedIn: false,
+                error: false
+            }
+
+        case LOGIN_STATUS_SUCCESS:
+            return {
+                ...state,
+                loggingIn: false,
+                user: action.payload,
+                isLoggedIn: false,
+                error: false
+            }
+
+        case LOGIN_STATUS_FAILURE:
+            return {
+                ...state,
+                loggingIn: false,
+                user: {
+                    username: '',
+                    token: ''
+                },
+                isLoggedIn: false,
+                error: true
+            }
+        case SIGNUP_PARTNER_START:
+            return {
+                ...state,
+                signingUp: true
+            }
+        case SIGNUP_PARTNER_SUCCESS:
+            return {
+                ...state,
+                signingUp: false,
+                partners: action.payload
+
+            }
+        case SIGNUP_PARTNER_FAILURE:
+            return {
+                ...state,
+                signingUp: false,
+                error: action.payload
+            }
+        case SIGNUP_PATRON_START:
+            return {
+                ...state,
+                signingUp: true
+            }
+        case SIGNUP_PATRON_SUCCESS:
+            return {
+                ...state,
+                signingUp: false,
+                patrons: action.payload
+
+            }
+        case SIGNUP_PATRON_FAILURE:
+            return {
+                ...state,
+                signingUp: false,
+                error: action.payload
+            }
         case LOGIN_START:
             return {
                 ...state,
@@ -55,7 +111,7 @@ export const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loggingIn: false,
-                username: action.payload,
+                user: action.payload,
                 isLoggedIn: true
             };
         case LOGIN_FAILURE:
